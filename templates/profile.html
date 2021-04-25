@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ user.name }}</h1>
+
+{% for item in news %}
+<a href="portfolio/{{item.id}}">
+    <div class="col-md6 border rounded">
+        <h4>
+            {{ item.surname }} {{ item.name }}
+        </h4>
+    </div>
+</a>
+{% endfor %}
+
+
+{% if current_user.is_authenticated and current_user == user %}
+    <p><a href="news" class="btn btn-secondary">Добавить новость</a></p>
+    <p><a href="logout" class="btn btn-danger">Выйти</a></p>
+{% endif %}
+
+{% endblock %}
