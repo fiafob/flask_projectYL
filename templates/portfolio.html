@@ -2,49 +2,63 @@
 {% block content %}
 <!-- portfolio -->
 <h1> Портфолио {{ user.name }}</h1>
-<div class="col-md6 border rounded">
-    <p>
-        <em style="font-weight: bold">{{ form.surname.label }}</em><br>
-        <em style="margin-left: 4%">{{ news.surname }}</em>
-    </p>
-    <p>
-        <em style="font-weight: bold">{{ form.name.label }}</em><br>
-        <em style="margin-left: 4%">{{ news.name}}</em>
-    </p>
-    <p>
-        <em style="font-weight: bold">{{ form.batya.label }}</em><br>
-        <em style="margin-left: 4%">{{ news.batya}}</em>
-    </p>
-    <p>
-        <em style="font-weight: bold">{{ form.content.label }}</em><br>
-        <em style="margin-left: 4%">{{ news.content}}</em>
-    </p>
-</div>
-
-<!-- COMMS -->
-<div class="col-md6 border rounded">
-    <p>
-        {{ form_comm.comment.label }}<br>
-        {{ form_comm.comment(class="form-control") }}<br>
-        {% for error in form_comm.comment.errors %}
-            <p content="alert alert-danger" role="alert">
-                {{ error }}
-            </p>
-        {% endfor %}
-    </p>
-    <p>{{ form_comm.anonymous() }} {{ form_comm.anonymous.label }}</p>
-    <p>{{ form_comm.submit(type="submit", class="btn btn-primary") }}</p>
-    {{message}}
-
-    {% for comm in comms %}
+<p>
     <div class="col-md6 border rounded">
-        {% if comm.anonymous %}
-        <h4>some user</h4><br>
-        {% else %}
-        <h4>{{ comm.user.name }}</h4><br>
-        {% endif %}
-        <em>comm.commentary</em>
+        <p>
+            <em style="font-weight: bold; margin-left: 1%">{{ form.surname.label }}</em><br>
+            <em style="margin-left: 4%">{{ news.surname }}</em>
+        </p>
+        <p>
+            <em style="font-weight: bold; margin-left: 1%">{{ form.name.label }}</em><br>
+            <em style="margin-left: 4%">{{ news.name }}</em>
+        </p>
+        <p>
+            <em style="font-weight: bold; margin-left: 1%">{{ form.batya.label }}</em><br>
+            <em style="margin-left: 4%">{{ news.batya}}</em>
+        </p>
+        <p>
+            <em style="font-weight: bold; margin-left: 1%">{{ form.content.label }}</em><br>
+            <em style="margin-left: 4%">{{ news.content}}</em>
+        </p>
     </div>
-    {% endfor %}
+</p>
+<!-- COMMS -->
+<h2>Коментарии</h2>
+<p>
+    <div class="col-md6 border rounded">
+        <form action="" method="post" style="margin-left: 1%">
+                {{ form_comm.hidden_tag() }}
+            <p>
+                {{ form_comm.comment.label }}<br>
+                {{ form_comm.comment(class="form-control") }}<br>
+
+                {% for error in form_comm.comment.errors %}
+                    <p content="alert alert-danger" role="alert">
+                        {{ error }}
+                    </p>
+                {% endfor %}
+
+            </p>
+            <p>{{ form_comm.anonymous() }} {{ form_comm.anonymous.label }}</p>
+            <p>{{ form_comm.submit(type="submit", class="btn btn-primary") }}</p>
+            {{ message }}
+        </form>
+    </div>
+</p>
+
+<p>
+{% for comm in comms %}
+<div class="col-md6 border rounded" style="padding-bottom: 5px">
+    {% if comm.anonymous %}
+    <h4 style="margin-left: 1%">some user</h4>
+    {% else %}
+    <h4 style="margin-left: 1%">{{ comm.user.name }}</h4>
+    {% endif %}
+    <h6 style="margin-left: 3%"> {{ comm.created_date }}</h6>
+    <em style="margin-left: 6%; border: gray 1px solid; border-radius: 4px; padding: 4px">
+        {{ comm.commentary }}
+    </em>
 </div>
+{% endfor %}
+</p>
 {% endblock %}

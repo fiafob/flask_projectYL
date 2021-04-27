@@ -5,11 +5,13 @@
 
 {% for item in news %}
 <a href="portfolio/{{item.id}}">
-    <div class="col-md6 border rounded">
-        <h4>
-            {{ item.surname }} {{ item.name }}
-        </h4>
-    </div>
+    <p>
+        <div class="col-md6 border rounded" style="padding: 5px">
+            <h4>
+                {{ item.surname }} {{ item.name }}
+            </h4>
+        </div>
+    </p>
 </a>
 {% endfor %}
 

@@ -35,10 +35,10 @@ def login():
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             return redirect("/")
-        return render_template('login.html',
+        return render_template('login2.html',
                                message="Неправильный логин или пароль",
-                               form=form)
-    return render_template('login.html', title='Авторизация', form=form)
+                               form=form, title='Авторизация')
+    return render_template('login2.html', title='Авторизация', form=form)
 
 
 @app.route('/logout')
@@ -81,41 +81,41 @@ def profile(id):
 
 
 @app.route("/portfolio/<int:id>", methods=["GET", "POST"])
-def portfolio(id):
+def portfolio(id):  # uses id of page, not user
     form = NewsForm()
     form_comm = CommsForm()
     db_sess = db_session.create_session()
     news_id = db_sess.query(News).filter(News.id == id).first()
     user = db_sess.query(User).filter(news_id.user_id == User.id).first()
     comms = db_sess.query(Comment).filter(news_id.id == Comment.news_id)
-    if not user:
+    if not news_id:
         abort(404)
-    if form.validate_on_submit():
-        if current_user.is_authenticated():
-            if form.comment.data == "" or form.comment.data is None:
-                render_template("portfolio.html",
-                                title=f"Портфолио пользователя {user.name}",
-                                form=form, user=user, news=news_id, comms=comms,
-                                form_comm=form_comm, message="Enter your comment")
+    if form_comm.validate_on_submit():
+        if current_user.is_authenticated:
+            # if form_comm.comment.data == "":
+            #     render_template("portfolio.html",
+            #                     title=f"Портфолио пользователя {user.name}",
+            #                     form=form, user=user, news=news_id, comms=comms,
+            #                     form_comm=form_comm, message="Enter your comment")
 
             comment = Comment(
-                commentary=form.comment.data,
+                commentary=form_comm.comment.data,
                 news_id=id,
-                user_id=user.id,
-                is_private=form.anonymous.data
+                user_id=current_user.id,
+                is_private=form_comm.anonymous.data
             )
             db_sess.add(comment)
             db_sess.commit()
             return redirect("/")
         else:
-            render_template("portfolio.html",
+            render_template("portfolio.html", comms=comms,
                             title=f"Портфолио пользователя {user.name}",
-                            form=form, user=user, news=news_id,
+                            form=form, user=user, news=news_id, form_comm=form_comm,
                             message="Sign in if you want to comment")
 
-    return render_template("portfolio.html",
+    return render_template("portfolio.html", form_comm=form_comm, comms=comms,
                            title=f"Портфолио пользователя {user.name}",
-                           form=form, user=user, news=news_id)
+                           form=form, user=user, news=news_id, message="")
 
 
 @app.route('/register', methods=['GET', 'POST'])
