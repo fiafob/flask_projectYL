@@ -12,13 +12,22 @@
             <em style="font-weight: bold; margin-left: 1%">{{ form.name.label }}</em><br>
             <em style="margin-left: 4%">{{ news.name }}</em>
         </p>
-        <p>
-            <em style="font-weight: bold; margin-left: 1%">{{ form.batya.label }}</em><br>
-            <em style="margin-left: 4%">{{ news.batya}}</em>
-        </p>
+        {% if news.batya != "" %}
+            <p>
+                <em style="font-weight: bold; margin-left: 1%">{{ form.batya.label }}</em><br>
+                <em style="margin-left: 4%">{{ news.batya }}</em>
+            </p>
+        {% endif %}
         <p>
             <em style="font-weight: bold; margin-left: 1%">{{ form.content.label }}</em><br>
-            <em style="margin-left: 4%">{{ news.content}}</em>
+            <em style="margin-left: 4%">{{ news.content }}</em>
+        </p>
+        <p>
+            <em style="font-weight: bold; margin-left: 1%">Ссылки</em><br>
+            {% for filename in images %}
+                <a href="/uploads/{{filename.filename}}"><em style="margin-left: 4%">{{ filename.filename }}</em></a>
+            <br>
+            {% endfor %}
         </p>
     </div>
 </p>
@@ -49,7 +58,7 @@
 <p>
 {% for comm in comms %}
 <div class="col-md6 border rounded" style="padding-bottom: 5px">
-    {% if comm.anonymous %}
+    {% if comm.is_private %}
     <h4 style="margin-left: 1%">some user</h4>
     {% else %}
     <h4 style="margin-left: 1%">{{ comm.user.name }}</h4>

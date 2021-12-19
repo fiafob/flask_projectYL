@@ -6,15 +6,15 @@ from wtforms.validators import DataRequired
 
 class RegisterForm(FlaskForm):
     email = EmailField("Email", validators=[DataRequired()])
-    password = PasswordField("Password", validators=[DataRequired()])
-    password_again = PasswordField("Repeat password", validators=[DataRequired()])
-    name = StringField("Username", validators=[DataRequired()])
-    about = TextAreaField("Write about yourself")
-    submit = SubmitField("Enter")
+    password = PasswordField("Пароль", validators=[DataRequired()])
+    password_again = PasswordField("Повторите пароль", validators=[DataRequired()])
+    name = StringField("Никнейм", validators=[DataRequired()])
+    about = TextAreaField("Расскажите о себе")
+    submit = SubmitField("Продолжить")
 
 
 class LoginForm(FlaskForm):
     email = EmailField("Email", validators=[DataRequired()])
-    password = PasswordField("Password", validators=[DataRequired()])
-    remember_me = BooleanField("Remember me")
-    submit = SubmitField("Enter")
+    password = PasswordField("Пароль", validators=[DataRequired()])
+    remember_me = BooleanField("Запомнить меня")
+    submit = SubmitField("Продолжить")

@@ -4,6 +4,6 @@ from wtforms.validators import DataRequired
 
 
 class CommsForm(FlaskForm):
-    comment = TextAreaField("Leave a comment", validators=[DataRequired()])
-    anonymous = BooleanField("povezlo povezlo")
-    submit = SubmitField("Submit")
+    comment = TextAreaField("Оставьте комментарий", validators=[DataRequired()])
+    anonymous = BooleanField("Оставить комментарий анонимно")
+    submit = SubmitField("Тык")

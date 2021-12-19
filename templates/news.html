@@ -2,8 +2,12 @@
 
 {% block content %}
 <h1>Добавление портфолио</h1>
-<form action="" method="post">
+<form action="" method="post" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
+    <!--
+        next three paragraphs are fields, where I expect
+        user's surname, name and patronymic
+    -->
     <p>
         {{ form.surname.label }}<br>
         {{ form.surname(class="form-control") }}<br>
@@ -31,6 +35,9 @@
             </p>
         {% endfor %}
     </p>
+    <!--
+        next paragraph is text input
+    -->
     <p>
         {{ form.content.label }}<br>
         {{ form.content(class="form-control") }}<br>
@@ -40,7 +47,25 @@
             </p>
         {% endfor %}
     </p>
+    <!--
+        next paragraph is multiple file input
+        I expect to use it with photos
+    -->
+    <p>
+        {{ form.image_form.label }}<br>
+        {{ form.image_form( class="form-control", style="padding-bottom:36px",
+            accept=".jpg, .jpeg, .png") }}<br>
+        {% for error in form.image_form.errors %}
+            <p content="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </p>
+
+    <!-- this is mark whether this portfolio should be private or not -->
     <p>{{ form.is_private() }} {{ form.is_private.label }}</p>
+
+    <!-- submit button -->
     <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
     {{message}}
 </form>

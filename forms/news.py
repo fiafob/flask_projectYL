@@ -1,13 +1,16 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField
+from wtforms import StringField, TextAreaField, MultipleFileField
+from flask_wtf.file import FileAllowed
 from wtforms import BooleanField, SubmitField
 from wtforms.validators import DataRequired
 
 
 class NewsForm(FlaskForm):
-    surname = StringField("Surname", validators=[DataRequired()])
-    name = StringField("Name", validators=[DataRequired()])
-    batya = StringField("Patronymic")
-    content = TextAreaField("Achievements", validators=[DataRequired()])
+    surname = StringField("Фамилия", validators=[DataRequired()])
+    name = StringField("Имя", validators=[DataRequired()])
+    batya = StringField("Отчество")
+    content = TextAreaField("Достижения", validators=[DataRequired()])
+    image_form = MultipleFileField("Сканы достижений", validators=[DataRequired(), FileAllowed(
+        ["jpg", "jpeg", "png", "pdf"])])
     is_private = BooleanField("Личное")
     submit = SubmitField('Применить')

@@ -18,6 +18,7 @@ class Comment(SqlAlchemyBase):
                                 sqlalchemy.ForeignKey("users.id"))
     user = orm.relation('User')
     is_private = sqlalchemy.Column(sqlalchemy.Boolean, default=True)
+
     created_date = sqlalchemy.Column(sqlalchemy.DateTime,
                                      default=datetime.datetime.now)
 

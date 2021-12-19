@@ -15,6 +15,7 @@ class News(SqlAlchemyBase):
     batya = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     content = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
+    dt = str(datetime.datetime.now).split(".")[0]
     created_date = sqlalchemy.Column(sqlalchemy.DateTime,
                                      default=datetime.datetime.now)
 
