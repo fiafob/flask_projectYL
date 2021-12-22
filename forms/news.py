@@ -11,6 +11,6 @@ class NewsForm(FlaskForm):
     batya = StringField("Отчество")
     content = TextAreaField("Достижения", validators=[DataRequired()])
     image_form = MultipleFileField("Сканы достижений", validators=[DataRequired(), FileAllowed(
-        ["jpg", "jpeg", "png", "pdf"])])
+        ["jpg", "jpeg", "png"])])
     is_private = BooleanField("Личное")
     submit = SubmitField('Применить')

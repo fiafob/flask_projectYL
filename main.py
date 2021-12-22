@@ -21,7 +21,7 @@ db_session.global_init("db/blogs.db")
 app = Flask(__name__)
 app.config['PERMANENT_SESSION_LIFETIME'] = datetime.timedelta(days=365)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
-app.config['MAX_CONTENT_LENGTH'] = 1 * 16 * 1024 * 1024
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 app.config['UPLOAD_PATH'] = os.path.join(app.root_path, 'uploads')
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -82,9 +82,7 @@ def profile(id):
     else:
         abort(404)
 
-    return render_template('profile.html',
-                           title=f'{user.name}',
-                           user=user, news=news)
+    return render_template('profile.html', title=f'{user.name}', user=user, news=news)
 
 
 @app.route("/portfolio/<int:id>", methods=["GET", "POST"])
@@ -259,6 +257,22 @@ def news_delete(id):
     return redirect('/')
 
 
+@app.route("/session_test")
+def session_test():
+    visits_count = session.get('visits_count', 0)
+    session['visits_count'] = visits_count + 1
+    return make_response(
+        f"Вы пришли на эту страницу {visits_count + 1} раз")
+    # delete
+    # session.pop('visits_count', None)
+
+
+@app.route('/uploads/<path:filename>')
+def get_file(filename):
+    return send_from_directory(app.config['UPLOAD_PATH'], filename)
+
+
+
 @app.route("/cookie_test")
 def cookie_test():
     visits_count = int(request.cookies.get("visits_count", 0))
@@ -275,21 +289,6 @@ def cookie_test():
     return res
     # delete
     # res.set_cookie("visits_count", '1', max_age=0)
-
-
-@app.route("/session_test")
-def session_test():
-    visits_count = session.get('visits_count', 0)
-    session['visits_count'] = visits_count + 1
-    return make_response(
-        f"Вы пришли на эту страницу {visits_count + 1} раз")
-    # delete
-    # session.pop('visits_count', None)
-
-
-@app.route('/uploads/<path:filename>')
-def get_file(filename):
-    return send_from_directory(app.config['UPLOAD_PATH'], filename)
 
 
 def main():
