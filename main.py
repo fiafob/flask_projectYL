@@ -272,7 +272,6 @@ def get_file(filename):
     return send_from_directory(app.config['UPLOAD_PATH'], filename)
 
 
-
 @app.route("/cookie_test")
 def cookie_test():
     visits_count = int(request.cookies.get("visits_count", 0))
@@ -343,8 +342,9 @@ def main():
 
     # db_sess.commit()
     app.run(port=8080, host="127.0.0.1")
+    ...
 
 
 if __name__ == '__main__':
-    webbrowser.open("http://127.0.0.1:8080/")
+    #webbrowser.open("http://127.0.0.1:8080/")
     main()
